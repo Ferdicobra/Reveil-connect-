@@ -40,3 +40,30 @@ uint32_t unix_time = ntp_seconds - 2208988800UL + UTC_OFFSET_SEC;
 ```
 
 ## Interface tactile
+
+=== REVEIL NTP ===
+12:34:56
+01/06/2026
+RESEAU OK
+NTP OK
+─────────────────
+ALARME 07:00   OFF
+[ +H ][ -H ][ +M ][ -M ]
+[ ACTIVER ]
+
+## Configuration
+
+Dans `freertos.c`, modifier l'offset UTC si besoin :
+
+```c
+#define UTC_OFFSET_SEC (2 * 3600)   // UTC+2 heure été France
+#define UTC_OFFSET_SEC (1 * 3600)   // UTC+1 heure hiver France
+```
+
+## Limitations et évolutions possibles
+
+- **Serveur NTP en IP fixe** : adresse `82.65.248.56` codée en dur, évolution possible avec DNS.
+- **Pas de persistance de l'alarme** : perdue au redémarrage, évolution possible via RTC ou carte SD.
+- **Alarme sonore** : uniquement LED pour l'instant, évolution possible via codec WM8994 et fichier WAV sur carte SD.
+- **Offset UTC manuel** : passage heure été/hiver nécessite une modification du code.
+
